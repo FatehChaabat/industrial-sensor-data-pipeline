@@ -93,16 +93,13 @@ df['anomalie'] = df['z_score'].abs() > 3
 ## 📊 Visualisations
 
 <p align="center">
-<img src="results/03_heatmap_power.png" width="850">
+<img src="results/dashboard_preview.png" width="900">
 
 
-<em><b>Heatmap de consommation :</b> On observe clairement une rupture de charge le week-end sur le compteur tertiaire, typique d'une gestion programmée du bâtiment (HVAC), contrairement au profil industriel plus stable.</em>
-</p> 
+<p align="center">
+<em>Dashboard interactif permettant la supervision des capteurs industriels, intégrant des filtres par machine et type de capteur, le taux d’anomalies, une table des anomalies détectées, ainsi que des visualisations analytiques (treemap des moyennes, histogrammes comparatifs min/moyenne/max et tableau de synthèse des statistiques par équipement).</em>
+</p>
  
-<!-- Ajouter une capture du dashboard Power BI ici -->
-<!-- ![Dashboard](docs/dashboard_preview.png) -->
- 
-
 ---
 
 ## ▶️ Exécution
@@ -151,17 +148,28 @@ Ouvrir `dashboard.pbix` → Transformer les données → Mettre à jour la chaî
 ## 📁 Structure du projet
  
 ```
-industrial-sensor-pipeline/
-├── data/
-│   └── sensors_raw.csv                    # données simulées
-├── sql/
-│   ├── create_tables.sql                  # schéma DB
-│   └── queries.sql                        # requêtes analytiques 
-├── results/
-│   └── 03_heatmap_power.png                     
-├── extraction_transform_load_full.py      # pipeline complet ETL
-├── dashboard.pbix                         # Power BI dashboard
-└── requirements.txt
+industrial-sensor-data-pipeline/
+│
+├── README.md                                       # Documentation principale
+├── LICENSE                                         # Licence MIT
+├── requirements.txt                                # Dépendances Python                                   
+├── extraction_transform_load_full.py               # Pipeline complet ETL
+│
+├── data/                                           
+│   └── industrial_sensor_data.csv                  # Données simulées
+│
+├── sql/                                            
+│   ├── create_load_table.sql                       # Création et chargement des tables
+│   ├── queries.sql                                 # Exploration et validation des données
+│   └── check_bi.sql                                # Contrôle qualité post-chargement
+│
+├── power_bi/                                       
+│   └── dashboard.pbix                              # Dashboard Power BI
+│
+├── results/                                        
+│    └── dashboard_preview.jpg                      # Aperçu du dashboard
+│
+└──.gitignore                                       # Fichiers exclus du dépôt
 ```
 
 ---
