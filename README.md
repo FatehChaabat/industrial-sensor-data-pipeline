@@ -1,6 +1,6 @@
 # Pipeline de Données Capteurs Industriels & Détection d'Anomalies
 
-> Pipeline complet de traitement de données industrielles, de l'ingestion CSV jusqu'au dashboard Power BI, assurant la qualité et la cohérence des données depuis les systèmes sources.
+> Pipeline complet de traitement de données industrielles, de l'ingestion CSV jusqu'au dashboard Power BI, assurant la qualité et la cohérence des données, avec détection d'anomalies par Z-Score.
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![SQL Server](https://img.shields.io/badge/Microsoft%20SQL%20Server-Developer-red?logo=microsoft-sql-server)
@@ -79,45 +79,6 @@ df['anomalie'] = df['z_score'].abs() > 3
 
 ---
 
-## 🛠️ Installation & exécution
-
-### Prérequis
-
-- Python 3.10+
-- SQL Server Developer Edition
-- Power BI Desktop
-- ODBC Driver 18
-
-### Setup
-
-```bash
-# 1. Cloner le repo
-git clone https://github.com/fatehchaabat/industrial-sensor-data-pipeline.git
-cd industrial-sensor-pipeline
-
-# 2. Installer les dépendances
-pip install -r requirements.txt
-
-# 3. Lancer le pipeline complet (extraction → transformation → chargement)
-python extraction_transform_load_full.py
-```
-La connexion SQL Server utilise **Windows Authentication** (Trusted Connection), aucune configuration supplémentaire n'est requise si SQL Server tourne en local :
- 
-```python
-engine = create_engine(
-    "mssql+pyodbc://localhost/INDUSTRIAL_DATA"
-    "?driver=ODBC+Driver+18+for+SQL+Server"
-    "&trusted_connection=yes"
-    "&Encrypt=no"
-)
-```
- 
-### Connexion Power BI
- 
-Ouvrir `dashboard.pbix` → Transformer les données → Mettre à jour la chaîne de connexion SQL Server.
- 
----
- 
 ## 📈 Résultats
  
 <!-- Ajouter une capture du dashboard Power BI ici -->
@@ -125,10 +86,28 @@ Ouvrir `dashboard.pbix` → Transformer les données → Mettre à jour la chaî
  
 | Métrique | Valeur |
 |---|---|
-| Anomalies détectées | ~XX |
-| Taux d'anomalie global | X,X % |
-| Temps d'exécution pipeline | < Xs |
+| Anomalies détectées | 2 |
+| Taux d'anomalie global | 0,1 % |
+| Temps d'exécution pipeline | < ~0.5 – 3s |
+
+---
+
+## ⚠️ Limites actuelles
+- **Traitement batch** : pas d'ingestion en streaming temps réel (Kafka)
+- **Pas d'orchestration** : aucune gestion native des erreurs et dépendances entre étapes (Airflow)
+- **Déploiement local** : Power BI Desktop uniquement, pas de partage en ligne sans licence Power BI Pro
+- **Données simulées** : les performances de détection restent à valider sur des données industrielles réelles
+
+---
+
+## 🔮 Améliorations futures
  
+- **Pipeline incrémental** — traitement uniquement des nouvelles données à chaque exécution, sans recharger l'historique complet
+- **Orchestration** — gestion des dépendances et des erreurs entre étapes via Airflow ou Prefect
+- **Monitoring + alerting** — notification automatique (email, Slack) lors de la détection d'une anomalie critique
+- **Power BI Service** — publication en ligne et actualisation automatique des données sans intervention manuelle
+- **Temps réel** — remplacement du batch par un pipeline streaming via Kafka ou Spark Streaming
+
 ---
  
 ## 📁 Structure du projet
@@ -144,6 +123,49 @@ industrial-sensor-pipeline/
 ├── dashboard.pbix                          # Power BI dashboard
 └── requirements.txt
 ```
+
+---
+
+## 🛠️ Installation & exécution
+
+### Prérequis
+
+- Python 3.10+
+- SQL Server Developer Edition
+- Power BI Desktop
+- ODBC Driver 18
+
+### Comment exécuter
+
+```bash
+# Cloner le dépôt
+git clone https://github.com/fatehchaabat/industrial-sensor-data-pipeline.git
+cd industrial-sensor-data-pipeline
+
+# Installer les dépendances
+pip install -r requirements.txt
+
+# Lancer le pipeline complet (extraction → transformation → chargement)
+python extraction_transform_load_full.py
+
+```
+### Configuration SQL Server
+La connexion SQL Server utilise **Windows Authentication** (Trusted Connection), aucune configuration supplémentaire n'est requise si SQL Server tourne en local :
+ 
+```python
+engine = create_engine(
+    "mssql+pyodbc://<SERVEUR>/<NOM_BASE>"
+    "?driver=ODBC+Driver+18+for+SQL+Server"
+    "&trusted_connection=yes"
+    "&Encrypt=no"
+)
+```
+ 
+### Connexion Power BI
+ 
+Ouvrir `dashboard.pbix` → Transformer les données → Mettre à jour la chaîne de connexion SQL Server.
+
+
 
 ---
 
