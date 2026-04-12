@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# Logs
+pipeline.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Power BI — décommenter si le fichier est trop lourd pour GitHub (> 100 MB)
+# *.pbix
