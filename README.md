@@ -75,7 +75,6 @@ df["anomaly"] = df["z_score"].abs() > 3
 | Taux d'anomalie | 0,1 % |
 | Temps d’exécution | < 3s |
 
----
 
 ### Fonctionnalités du dashboard
 
@@ -163,6 +162,8 @@ pip install -r requirements.txt
 # Lancer le pipeline complet (extraction → transformation → chargement)
 python pipeline.py
 ```
+
+---
 
 ## 🖥️ Configuration & Automatisation
 
