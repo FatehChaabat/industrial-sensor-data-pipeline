@@ -1,6 +1,6 @@
 # Pipeline de Données Capteurs Industriels & Détection d'Anomalies
 
-> **Simulation d’un pipeline industriel de supervision capteurs avec détection d’anomalies et automatisation complète**
+>**Pipeline data industriel automatisé (ETL + BI + monitoring)**
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![SQL Server](https://img.shields.io/badge/Microsoft%20SQL%20Server-Developer-red?logo=microsoft-sql-server)
@@ -155,12 +155,18 @@ industrial-sensor-data-pipeline/
 # Cloner le dépôt
 git clone https://github.com/fatehchaabat/industrial-sensor-data-pipeline.git
 cd industrial-sensor-data-pipeline
-
+ 
 # Installer les dépendances
 pip install -r requirements.txt
-
+ 
+# S'assurer que SQL Server est démarré avant de lancer le pipeline
+# (Services Windows → SQL Server → Démarrer)
+ 
 # Lancer le pipeline complet (extraction → transformation → chargement)
 python pipeline.py
+ 
+# Ouvrir le dashboard Power BI et actualiser les données
+start power_bi/dashboard.pbix
 ```
 
 ---
