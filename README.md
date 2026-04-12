@@ -1,6 +1,6 @@
 # Pipeline de Données Capteurs Industriels & Détection d'Anomalies
 
-> Simulation d’un pipeline industriel de supervision capteurs avec détection d’anomalies et automatisation complète.
+> **Simulation d’un pipeline industriel de supervision capteurs avec détection d’anomalies et automatisation complète**
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![SQL Server](https://img.shields.io/badge/Microsoft%20SQL%20Server-Developer-red?logo=microsoft-sql-server)
@@ -11,7 +11,7 @@
 
 ## 🚀 Vue d'ensemble
 
-Ce projet simule un **système industriel réel de supervision et de maintenance prédictive** basé sur des données capteurs.
+Ce projet simule un système industriel réel de supervision et de maintenance prédictive basé sur des données capteurs.
 
 ```mermaid
 flowchart LR
