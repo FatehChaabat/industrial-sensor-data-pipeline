@@ -129,7 +129,7 @@ industrial-sensor-data-pipeline/
 ├── README.md                                       # Documentation principale
 ├── LICENSE                                         # Licence MIT
 ├── requirements.txt                                # Dépendances Python
-├── pipeline.py               # Pipeline complet ETL
+├── pipeline.py                                     # Pipeline complet ETL
 │
 ├── data/
 │   └── industrial_sensor_data.csv                  # Données simulées
@@ -137,13 +137,13 @@ industrial-sensor-data-pipeline/
 ├── sql/
 │   ├── create_load_table.sql                       # Création et chargement des tables
 │   ├── queries.sql                                 # Exploration et validation des données
-│   └── check_bi.sql                               # Contrôle qualité post-chargement
+│   └── check_bi.sql                                # Contrôle qualité post-chargement
 │
 ├── power_bi/
 │   └── dashboard.pbix                              # Dashboard Power BI
 │
 ├── results/
-│   └── dashboard_preview.png                      # Aperçu du dashboard
+│   └── dashboard_preview.png                       # Aperçu du dashboard
 │
 └── .gitignore                                      # Fichiers exclus du dépôt
 ```
