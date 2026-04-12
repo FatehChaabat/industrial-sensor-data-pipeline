@@ -1,34 +1,17 @@
 # Pipeline de Données Capteurs Industriels & Détection d'Anomalies
 
-> Pipeline automatisé de données industrielles assurant ingestion, transformation, stockage et visualisation, avec détection d’anomalies par Z-Score pour la maintenance préventive.
+Pipeline automatisé de bout en bout pour le traitement de données industrielles — de l'ingestion CSV jusqu'au dashboard Power BI, avec détection d'anomalies basée sur le Z-Score.
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![SQL Server](https://img.shields.io/badge/Microsoft%20SQL%20Server-Developer-red?logo=microsoft-sql-server)
 ![Power BI](https://img.shields.io/badge/PowerBI-Dashboard-yellow)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-
 ---
 
-## 🎯 Objectifs métier 
+## 🚀 Vue d'ensemble
 
-- Détecter automatiquement les anomalies capteurs avant défaillance équipement 
-- Superviser plusieurs équipements industriels via dashboard interactif
-- Comparer les performances entre machines et capteurs
-- Automatiser bout en bout via Windows Task Scheduler
-
----
-
-## ⚡ Points clés
-
-- Pipeline ETL automatisé
-- Architecture : SQL RAW → Python → SQL BI
-- Détection d’anomalies statistique `Z-score` (|Z| > 3)
-- Dashboard interactif Power BI
-
----
-
-## 🔁 Pipeline
+Ce projet simule un **système industriel réel de supervision et de maintenance prédictive** basé sur des données capteurs.
 
 ```mermaid
 flowchart LR
@@ -48,16 +31,22 @@ class A,B,D sql;
 class C python;
 class E power_bi;
 ```
----
-
-## 📊 Données
 
 | Métrique | Valeur |
 |---|---|
 | Observations | 2 000 |
-| Équipements surveillés | 4 (échangeur, compresseur, turbine, pompe) |
-| Types de capteurs | 3 (température, débit, pression) |
+| Équipements surveillés | 4 (Échangeur thermique, Compresseur, Turbine, Pompe) |
+| Types de capteurs | 3 (Température, Débit, Pression) |
 | Seuil d'anomalie | \|Z\| > 3 |
+
+---
+
+## 🎯 Objectifs métier
+
+- Détecter automatiquement les anomalies capteurs avant défaillance équipement
+- Superviser plusieurs équipements industriels via dashboard interactif
+- Comparer les performances entre machines et capteurs
+- Automatiser bout en bout via Windows Task Scheduler
 
 ---
 
@@ -72,37 +61,98 @@ class E power_bi;
 
 ## 🔬 Méthode
 
-Les anomalies sont détectées par **Z-Score** défini par :
+Les anomalies sont détectées via le **Z-Score**, calculé par machine et capteur.
+
+Une observation est considérée comme anormale si **|Z| > 3**, soit au-delà de **trois écarts-types** de la moyenne, représentant moins de **0,3 % des cas** dans une distribution normale.
 
 ```python
-df['z_score'] = df.groupby(['machine', 'capteur'])['valeur'] \
-    .transform(lambda x: (x - x.mean()) / x.std())
-df['anomalie'] = df['z_score'].abs() > 3
+df["z_score"] = df.groupby(["machine_name", "sensor_type"])["value"].transform(
+    lambda x: (x - x.mean()) / x.std() if x.std() != 0 else 0)
+df["anomaly"] = df["z_score"].abs() > 3
 ```
 
 ---
 
 ## 📈 Résultats clés
 
-- Détection fiable des anomalies capteurs
-- Visualisation claire via dashboard interactif
-- Exécution planifiée sans intervention manuelle via Windows Task Scheduler 
+| Métrique | Valeur |
+|---|---|
+| Anomalies détectées | 2 |
+| Taux d'anomalie global | 0,1 % |
+| Temps d'exécution pipeline | ~0.5 – 3s |
 
 ---
 
 ## 📊 Visualisations
 
+Dashboard Power BI – Monitoring industriel avec filtres dynamiques, détection d'anomalies et analyses statistiques par machine et capteur.
+
 <p align="center">
 <img src="results/dashboard_preview.png" width="900">
-
-
-<p align="center">
-<em>Dashboard interactif permettant la supervision des capteurs industriels, intégrant des filtres par machine et type de capteur, le taux d’anomalies, une table des anomalies détectées, ainsi que des visualisations analytiques (treemap des moyennes, histogrammes comparatifs min/moyenne/max et tableau de synthèse des statistiques par équipement).</em>
 </p>
- 
+
 ---
 
-## ▶️ Exécution
+## 🏭 Applications
+
+- Supervision industrielle
+- Maintenance conditionnelle
+- Monitoring énergétique
+- Analyse de performance équipements
+- Systèmes de type SCADA
+
+---
+
+## ⚠️ Limites actuelles
+ 
+- Traitement batch uniquement — pas de streaming temps réel (Kafka)
+- Pas d'orchestration — aucune gestion des erreurs entre étapes (Airflow)
+- Alerting absent — faisable via `smtplib` ou API Slack
+- Power BI Desktop uniquement — partage en ligne nécessite une licence Pro
+- Données simulées — à valider sur données réelles
+
+---
+
+## 🚀 Améliorations possibles
+
+- Intégration temps réel (MQTT / Kafka)
+- Détection d'anomalies par Machine Learning
+- Déploiement cloud (Azure / AWS)
+- Orchestration avancée (Airflow)
+- Dashboard temps réel
+
+---
+
+## 📁 Structure du projet
+
+```
+industrial-sensor-data-pipeline/
+│
+├── README.md                                       # Documentation principale
+├── LICENSE                                         # Licence MIT
+├── requirements.txt                                # Dépendances Python
+├── extraction_transform_load_full.py               # Pipeline complet ETL
+│
+├── data/
+│   └── industrial_sensor_data.csv                  # Données simulées
+│
+├── sql/
+│   ├── create_load_table.sql                       # Création et chargement des tables
+│   ├── queries.sql                                 # Exploration et validation des données
+│   └── check_bi.sql                               # Contrôle qualité post-chargement
+│
+├── power_bi/
+│   └── dashboard.pbix                              # Dashboard Power BI
+│
+├── results/
+│   └── dashboard_preview.png                      # Aperçu du dashboard
+│
+└── .gitignore                                      # Fichiers exclus du dépôt
+```
+
+---
+
+## ▶️ Installation & Exécution
 
 ### Prérequis
 
@@ -123,10 +173,11 @@ pip install -r requirements.txt
 
 # Lancer le pipeline complet (extraction → transformation → chargement)
 python extraction_transform_load_full.py
-
 ```
+
 ### Configuration SQL Server
-La connexion utilise l’authentification Windows. Adapter les paramètres suivants dans le script :
+
+La connexion utilise l'authentification Windows. Adapter les paramètres suivants dans le script :
 
 ```python
 from sqlalchemy import create_engine
@@ -138,67 +189,29 @@ engine = create_engine(
     "&Encrypt=no"
 )
 ```
- 
+
 ### Connexion Power BI
- 
-Ouvrir `dashboard.pbix` → Transformer les données → Mettre à jour la chaîne de connexion SQL Server.
 
----
- 
-## 📁 Structure du projet
- 
-```
-industrial-sensor-data-pipeline/
-│
-├── README.md                                       # Documentation principale
-├── LICENSE                                         # Licence MIT
-├── requirements.txt                                # Dépendances Python                                   
-├── extraction_transform_load_full.py               # Pipeline complet ETL
-│
-├── data/                                           
-│   └── industrial_sensor_data.csv                  # Données simulées
-│
-├── sql/                                            
-│   ├── create_load_table.sql                       # Création et chargement des tables
-│   ├── queries.sql                                 # Exploration et validation des données
-│   └── check_bi.sql                                # Contrôle qualité post-chargement
-│
-├── power_bi/                                       
-│   └── dashboard.pbix                              # Dashboard Power BI
-│
-├── results/                                        
-│    └── dashboard_preview.jpg                      # Aperçu du dashboard
-│
-└──.gitignore                                       # Fichiers exclus du dépôt
-```
+Ouvrir `power_bi/dashboard.pbix` → Transformer les données → Mettre à jour la chaîne de connexion SQL Server.
+
+### Automatisation via Windows Task Scheduler
+
+1. Ouvrir **Task Scheduler** → Créer une tâche
+2. **Déclencheur** : choisir la fréquence (quotidienne, horaire, etc.)
+3. **Action** : lancer un programme
+   - Programme : `python`
+   - Arguments : `extraction_transform_load_full.py`
+   - Démarrer dans : `C:\...\industrial-sensor-data-pipeline`
+4. Les logs d'exécution sont tracés automatiquement dans `pipeline.log`
 
 ---
 
-## ⚠️ Limites actuelles
-- Pas d'ingestion streaming en temps réel (Kafka)
-- Aucune notification automatique en cas d'anomalie détectée, faisable simplement via `smtplib` (email) ou une API Slack
-- Aucune gestion native des erreurs et dépendances entre étapes (Airflow)
-- Power BI Desktop uniquement, pas de partage en ligne sans licence Power BI Pro
-- Les performances de détection restent à valider sur des données industrielles réelles
+## 👤 Auteur
 
----
-
-## 🔮 Améliorations futures
- 
-- Pipeline incrémental avec traitement uniquement des nouvelles données à chaque exécution, sans recharger l'historique complet
-- Gestion des dépendances et des erreurs entre étapes via Airflow ou Prefect
-- Notification automatique (email, Slack) lors de la détection d'une anomalie critique
-- Publication en ligne et actualisation automatique des données sans intervention manuelle
-- Remplacement du batch par un pipeline streaming via Kafka ou Spark Streaming
-
+Ingénieur en **mécanique des fluides et systèmes énergétiques**, avec un intérêt pour l'analyse de données, la modélisation et l'optimisation énergétique. [Fateh Chaabat](https://fatehchaabat.github.io)
 
 ---
 
 ## 📄 Licence
 
-MIT · [Fateh Chaabat](https://fatehchaabat.github.io)
-
-
-
-
-
+Ce projet est sous **MIT License** – vous pouvez librement utiliser, modifier et partager le code et les fichiers, à condition de conserver la mention du copyright et de la licence.
