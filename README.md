@@ -111,7 +111,7 @@ df["anomaly"] = df["z_score"].abs() > 3
 
 ---
 
-## 🚀 Améliorations possibles
+## 🔭 Améliorations possibles
 
 - Intégration temps réel (MQTT / Kafka)
 - Déploiement cloud (Azure / AWS)
