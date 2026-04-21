@@ -206,7 +206,12 @@ Ouvrir `power_bi/dashboard.pbix` → Transformer les données → Mettre à jour
 
 ## 👤 Auteur
 
-Ingénieur en **mécanique des fluides et systèmes énergétiques**, avec un intérêt pour l'analyse de données, la modélisation et l'optimisation énergétique. [Fateh Chaabat](https://fatehchaabat.github.io)
+Ingénieur en **mécanique des fluides et systèmes énergétiques**, avec un intérêt pour l'analyse de données, la modélisation et l'optimisation énergétique. 
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-fatehchaabat.github.io-blue?logo=google-chrome&logoColor=white)](https://fatehchaabat.github.io)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Fateh%20Chaabat-green?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/fateh-chaabat-08202aa9/)
+[![GitHub](https://img.shields.io/badge/GitHub-FatehChaabat-red?logo=github&logoColor=white)](https://github.com/FatehChaabat)
+[![ResearchGate](https://img.shields.io/badge/ResearchGate-Fateh%20Chaabat-00CCBB?logo=researchgate)](https://www.researchgate.net/profile/Fateh-Chaabat-2)
 
 ---
 
